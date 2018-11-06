@@ -1,54 +1,58 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
 }
 
 .App-header {
-  position: relative;
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    position: relative;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 header {
-  height: 250px;
-  display: flex;
-  justify-content: center;
+    height: 250px;
+    display: flex;
+    justify-content: center;
 }
 
 header h2 {
-  position: relative;
-  top: -30px;
+    position: relative;
+    top: -30px;
 }
+
 .content {
-  width: 900px;
-  margin: 0 auto;
-  position: relative;
-  top: -57px;
+    width: 900px;
+    margin: 0 auto;
+    position: relative;
+    top: -57px;
 }
+
 .stockTable {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
+
 .stockTable div {
-  flex-grow: 1
+    flex-grow: 1
 }
+
 .stockTable .chart-cell {
-  position: relative;
+    position: relative;
 }
 
 .MuiAppBar-colorPrimary-8 {
-    background-color:#A51890!important;
+    background-color: #A51890 !important;
 }
 
 .popup-graph {
@@ -56,29 +60,33 @@ header h2 {
     right: 150px;
     top: 10px;
     width: 400px;
+    z-index: 1;
 }
-.loader{
-  display:block;
+
+.loader {
+    display: block;
 }
+
 .chart-icon {
-  height: 30px;
-  width: 40px;
+    height: 30px;
+    width: 40px;
 }
+
 .chart-icon img {
-  display: block;
-  cursor: pointer;
+    display: block;
+    cursor: pointer;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
