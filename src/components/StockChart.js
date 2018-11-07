@@ -7,17 +7,6 @@ export default class StockChart extends Component {
     constructor(props) {
         super(props)
         console.log(props);
-
-        if(this.chart) {
-            this.chart.chart.showLoading()
-        }
-        if (props.loading && this.chart) {
-            this.chart.chart.showLoading()
-        }
-        if (!props.loading && this.chart) {
-            this.chart.chart.hideLoading()
-            this.chart.chart.redraw();
-        }
     }
 
     componentWillReceiveProps(newProps) {
