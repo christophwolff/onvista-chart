@@ -34,17 +34,6 @@ class App extends Component {
         })
     }
 
-    handleClickAway = (e) => {
-        this.setState({
-            chartsOptions: {
-                ...this.state.chartsOptions,
-                series: null,
-            },
-            showGraph: null
-        });
-    };
-
-
     render() {
         return (
             <div className="App">
