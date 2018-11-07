@@ -57,8 +57,8 @@ header h2 {
 
 .popup-graph {
     position: absolute;
-    right: 150px;
-    top: 10px;
+    right: 115px;
+    top: 0;
     width: 400px;
     z-index: 1;
     background: white;
