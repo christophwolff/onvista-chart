@@ -61,6 +61,11 @@ header h2 {
     top: 10px;
     width: 400px;
     z-index: 1;
+    background: white;
+    text-align: center;
+    min-height: 300px;
+    align-items: center;
+    justify-content: center;
 }
 
 .loader {
