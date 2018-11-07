@@ -3,9 +3,10 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock'
-import axios from 'axios';
 import dayjs from 'dayjs'
 import Paper from '@material-ui/core/Paper';
+import StockIcon from '../components/StockIcon'
+import {fetchStockGraphData} from '../api'
 
 export default class StockChart extends Component {
 
@@ -89,8 +90,8 @@ export default class StockChart extends Component {
             }
         });
 
-        axios.get(`https://api.iextrading.com/1.0/stock/${stock.symbol}/chart/1y`)
-            .then(res => {
+        fetchStockGraphData(stock.quote.symbol)
+            .then(data => {
                 this.setState({
                     showGraph: true,
                     isLoading: false,
@@ -101,12 +102,12 @@ export default class StockChart extends Component {
                     chartsOptions: {
                         ...this.state.chartsOptions,
                         title: {
-                            text: stock.name,
+                            text: stock.quote.companyName,
                         },
                         series: [
                             {
-                                name: stock.name,
-                                data: res.data.map((data) => {
+                                name: stock.quote.companyName,
+                                data: data.map((data) => {
                                     return [dayjs(data.date).valueOf(), data.open, data.high, data.low, data.close]
                                 }),
                                 tooltip: {
@@ -115,7 +116,7 @@ export default class StockChart extends Component {
                             }, {
                                 type: 'column',
                                 name: 'Volume',
-                                data: res.data.map((data) => {
+                                data: data.map((data) => {
                                     return [dayjs(data.date).valueOf(), data.volume]
                                 }),
                                 yAxis: 1
@@ -128,10 +129,10 @@ export default class StockChart extends Component {
 
     render() {
         return <div style={{position: 'relative'}}>
-            <img
-                className="chart-mini-image"
-                onClick={this.handleMiniGraphClick.bind(this)}
-                src={this.props.stock.chartUrl} alt="logo"/>
+            <StockIcon
+                stock={this.props.stock}
+                onClick={this.handleMiniGraphClick.bind(this)}>
+            </StockIcon>
 
             {this.state.isLoading || this.state.showGraph ?
                 <Paper className="popup-graph" style={this.state.chartStyle} elevation={3}>

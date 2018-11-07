@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import StocksTableRow from './components/StocksTableRow'
+// import StocksTable from './components/StocksTable'
+import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -6,33 +9,41 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import StockChart from './components/StockChart';
-
+import {fetchStocks} from './api'
+import chartConfig from './config/chartConfig'
+import stocksConfig from './config/stocks'
 import './App.css';
-
-
-let id = 0;
-
-function createData(name, wkn, current, chartUrl, symbol) {
-    id += 1;
-    return {id, name, wkn, current, chartUrl, symbol};
-}
-
-// Create a table
-const rows = [
-    createData('Apple', '865985', 270.17, 'https://x.onvista.de/typ1.chart?ID_NOTATION=9385885&LEGEND=0&FROM=20.09.2018&TO=05.11.2018&colPriceLine=00519e&gfxtools_customer=onvista', 'AAPL'),
-    createData('Facebook', 'A1JWVX', 129.61, 'https://x.onvista.de/typ1.chart?ID_NOTATION=A1JWVX&LEGEND=0&FROM=20.09.2018&TO=05.11.2018&colPriceLine=00519e&gfxtools_customer=onvista', 'FB')
-];
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            error: 0,
+            ...chartConfig,
+            stocks: []
         }
     }
+
+    componentDidMount() {
+        let stocksToQuery = stocksConfig.toString();
+        fetchStocks(stocksToQuery, 'quote', '1y').then((stocks) => {
+            this.setState({
+                ...this.state.stocks,
+                stocks: Object.values(stocks)
+            });
+        })
+    }
+
+    handleClickAway = (e) => {
+        this.setState({
+            chartsOptions: {
+                ...this.state.chartsOptions,
+                series: null,
+            },
+            showGraph: null
+        });
+    };
+
 
     render() {
         return (
@@ -51,25 +62,16 @@ class App extends Component {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Name</TableCell>
-                                    <TableCell>WKN</TableCell>
-                                    <TableCell>Aktueller Kurs</TableCell>
+                                    <TableCell>Symbol</TableCell>
+                                    <TableCell>price (open)</TableCell>
                                     <TableCell>Chart</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map(row => {
-                                    return (
-                                        <TableRow key={row.id}>
-                                            <TableCell component="th" scope="row">
-                                                {row.name}
-                                            </TableCell>
-                                            <TableCell>{row.wkn}</TableCell>
-                                            <TableCell>{row.current} $</TableCell>
-                                            <TableCell>
-                                                <StockChart stock={row}/>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
+                                {this.state.stocks.map(stock => {
+                                    return (<StocksTableRow
+                                        key={stock.quote.symbol}
+                                        stock={stock}/>);
                                 })}
                             </TableBody>
                         </Table>
