@@ -54,7 +54,9 @@ header h2 {
 .MuiAppBar-colorPrimary-8 {
     background-color: #A51890 !important;
 }
+.graph-wrapper{
 
+}
 .popup-graph {
     position: absolute;
     right: 150px;
@@ -64,12 +66,13 @@ header h2 {
     background: white;
     text-align: center;
     min-height: 300px;
-    align-items: center;
-    justify-content: center;
-}
 
+}
 .loader {
-    display: block;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chart-icon {

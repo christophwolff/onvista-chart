@@ -15,8 +15,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { fetchStocks, fetchStockGraphData } from './api'
 
-import axios from 'axios';
 import dayjs from 'dayjs'
 
 import chartConfig from './config/chartConfig'
@@ -33,17 +33,14 @@ class App extends Component {
         }
     }
 
-    componentWillMount () {
+   componentDidMount () {
         let stocksToQuery = stocksConfig.toString();
-        axios.get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${stocksToQuery}&types=quote&range=1m&last=5`)
-            .then(res => {
-               console.log(res.data);
-
-                this.setState({
-                    ...this.state.stocks,
-                    stocks: Object.values(res.data)
-                });
-            })
+        fetchStocks(stocksToQuery, 'quote', '1y').then((stocks) => {
+           this.setState({
+               ...this.state.stocks,
+               stocks: Object.values(stocks)
+           });
+        })
     }
 
     handleClickAway = (e) => {
@@ -51,9 +48,6 @@ class App extends Component {
             chartsOptions: {
                 ...this.state.chartsOptions,
                 series: null,
-            },
-            chartStyle: {
-                display: 'none'
             },
             showGraph: null
         });
@@ -74,7 +68,6 @@ class App extends Component {
             isLoading: stock.quote.symbol,
             showGraph: stock.quote.symbol,
             chartStyle: {
-                display: 'flex',
                 top: offset(e.target).top,
                 left: offset(e.target).left - 400,
             },
@@ -86,41 +79,41 @@ class App extends Component {
                 },
             }
         }, () => {
-            axios.get(`https://api.iextrading.com/1.0/stock/${stock.quote.symbol}/chart/1m`)
-                .then(res => {
-                    this.setState({
-                        showGraph: stock.quote.symbol,
-                        isLoading: false,
-                        chartStyle: {
-                            ...this.state.chartStyle,
-                            display: 'block',
-                        },
-                        chartsOptions: {
-                            ...this.state.chartsOptions,
-                            title: {
-                                text: stock.quote.companyName,
-                            },
-                            series: [
-                                {
-                                    name: stock.quote.companyName,
-                                    data: res.data.map((data) => {
-                                        return [dayjs(data.date).valueOf(), data.open, data.high, data.low, data.close]
-                                    }),
-                                    tooltip: {
-                                        valueDecimals: 2
-                                    },
-                                }, {
-                                    type: 'column',
-                                    name: 'Volume',
-                                    data: res.data.map((data) => {
-                                        return [dayjs(data.date).valueOf(), data.volume]
-                                    }),
-                                    yAxis: 1
-                                }
-                            ]
-                        }
-                    });
-                })
+            setTimeout(() => {
+                fetchStockGraphData(stock.quote.symbol)
+                    .then(stockData => {
+
+                         this.setState({
+                            showGraph: stock.quote.symbol,
+                            isLoading: false,
+                            chartsOptions: {
+                                ...this.state.chartsOptions,
+                                title: {
+                                    text: stock.quote.companyName,
+                                },
+                                series: [
+                                    {
+                                        name: stock.quote.companyName,
+                                        data: stockData.map((data) => {
+                                            return [dayjs(data.date).valueOf(), data.open, data.high, data.low, data.close]
+                                        }),
+                                        tooltip: {
+                                            valueDecimals: 2
+                                        },
+                                    }, {
+                                        type: 'column',
+                                        name: 'Volume',
+                                        data: stockData.map((data) => {
+                                            return [dayjs(data.date).valueOf(), data.volume]
+                                        }),
+                                        yAxis: 1
+                                    }
+                                ]
+                            }
+                        });
+                    })
+            }, 200);
+
         });
     }
 
@@ -129,19 +122,21 @@ class App extends Component {
             <div className="App">
                 {this.state.isLoading || this.state.showGraph ?
                 <Paper className="popup-graph" style={this.state.chartStyle} elevation={3}>
-                    <ClickAwayListener onClickAway={this.handleClickAway}>
-                        {this.state.isLoading ?
-                            <div className="chart-icon">
-                                <CircularProgress className="loader" size={30} />
-                            </div>
-                            :
-                            <div><StockChart
-                                loading={!!this.state.isLoading}
-                                highcharts={Highcharts}
-                                options={this.state.chartsOptions} />
-                            </div>
-                        }
-                    </ClickAwayListener>
+                    <div className="graph-wrapper">
+                        <ClickAwayListener onClickAway={this.handleClickAway}>
+                            {this.state.isLoading ?
+                                <div className="loader">
+                                    <CircularProgress className="loader" size={30} />
+                                </div>
+                                :
+                                <div><StockChart
+                                    loading={!!this.state.isLoading}
+                                    highcharts={Highcharts}
+                                    options={this.state.chartsOptions} />
+                                </div>
+                            }
+                        </ClickAwayListener>
+                    </div>
                 </Paper> : null }
 
                 <AppBar position="static">

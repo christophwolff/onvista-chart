@@ -1,9 +1,6 @@
 export default {
     isLoading: false,
     showGraph: null,
-    chartStyle: {
-        display: 'none'
-    },
     currentGraph: null, // Maybe usefull for the clicked row
     error: 0,
     chartsOptions: {
