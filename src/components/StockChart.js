@@ -64,7 +64,7 @@ export default class StockChart extends Component {
             chartStyle: {
                 display: 'none'
             },
-            showGraph: null
+            showGraph: false
         });
     };
 
@@ -72,9 +72,9 @@ export default class StockChart extends Component {
         let {stock} = this.props;
         // Only  Show Grpah wenn not cllickt on the mini graph and if it is open
         // then close graph
-        if (this.state.showGraph === stock.id) {
+        if (this.state.showGraph) { // Not working because of Click away component
             this.setState({
-                showGraph: null,
+                showGraph: false,
                 chartsOptions: {
                     ...this.state.chartsOptions,
                     series: null

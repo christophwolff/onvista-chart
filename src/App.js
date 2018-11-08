@@ -13,6 +13,8 @@ import {fetchStocks} from './api'
 import chartConfig from './config/chartConfig'
 import stocksConfig from './config/stocks'
 import './App.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 class App extends Component {
 
@@ -20,7 +22,8 @@ class App extends Component {
         super(props);
         this.state = {
             ...chartConfig,
-            stocks: []
+            stocks: [],
+            loadingStocks: true
         }
     }
 
@@ -28,7 +31,7 @@ class App extends Component {
         let stocksToQuery = stocksConfig.toString();
         fetchStocks(stocksToQuery, 'quote', '1y').then((stocks) => {
             this.setState({
-                ...this.state.stocks,
+                loadingStocks: false,
                 stocks: Object.values(stocks)
             });
         })
@@ -57,11 +60,18 @@ class App extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.stocks.map(stock => {
-                                    return (<StocksTableRow
-                                        key={stock.quote.symbol}
-                                        stock={stock}/>);
-                                })}
+                                {this.state.loadingStocks ?
+                                    <TableRow>
+                                        <TableCell colSpan={4} style={{textAlign: 'center'}}>
+                                            <CircularProgress className="loader" size={30}/>
+                                        </TableCell>
+                                    </TableRow>
+                                    : this.state.stocks.map(stock => {
+                                        return (<StocksTableRow
+                                            key={stock.quote.symbol}
+                                            stock={stock}/>);
+                                    })}
+                                {}
                             </TableBody>
                         </Table>
                     </Paper>
