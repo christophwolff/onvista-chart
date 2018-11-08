@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
-import StocksTableRow from './components/StocksTableRow'
-// import StocksTable from './components/StocksTable'
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import {fetchStocks} from './api'
+import StocksTable from "./components/StocksTable";
+import { fetchStocks } from './api';
 import chartConfig from './config/chartConfig'
 import stocksConfig from './config/stocks'
 import './App.css';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 class App extends Component {
@@ -50,30 +43,7 @@ class App extends Component {
                 </AppBar>
                 <div className="content">
                     <Paper>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Symbol</TableCell>
-                                    <TableCell>price (open)</TableCell>
-                                    <TableCell>Chart</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.loadingStocks ?
-                                    <TableRow>
-                                        <TableCell colSpan={4} style={{textAlign: 'center'}}>
-                                            <CircularProgress className="loader" size={30}/>
-                                        </TableCell>
-                                    </TableRow>
-                                    : this.state.stocks.map(stock => {
-                                        return (<StocksTableRow
-                                            key={stock.quote.symbol}
-                                            stock={stock}/>);
-                                    })}
-                                {}
-                            </TableBody>
-                        </Table>
+                        <StocksTable stocks={this.state.stocks} loadingStocks={this.state.loadingStocks}></StocksTable>
                     </Paper>
                 </div>
             </div>
