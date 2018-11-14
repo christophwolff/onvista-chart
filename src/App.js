@@ -35,7 +35,7 @@ class App extends Component {
             <div className="App">
                 <AppBar position="static">
                     <Typography variant="h2" color="inherit">
-                        Musterdepot
+                        Stocks
                     </Typography>
                     <Typography variant="h6" color="inherit">
                         Inline-Chart Demo (Reactjs)
