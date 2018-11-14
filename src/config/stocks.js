@@ -1,1 +1,1 @@
-export default ['aapl', 'fb', 'ba', 'msft', 'v', 'SA'];
+export default ['aapl', 'fb', 'ba', 'msft', 'v', 'sa'];
