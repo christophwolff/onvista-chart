@@ -1,15 +1,38 @@
 import React, { Component } from 'react';
+import { fetchSimpleGraphData } from "../api";
+import { Sparklines, SparklinesLine } from "react-sparklines";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class StockIcon extends Component {
+
+    constructor() {
+        super()
+        this.state = {
+            data: [],
+            loadingMiniGraph: true
+        }
+    }
+
+    componentWillMount() {
+
+        fetchSimpleGraphData(this.props.stock.quote.symbol, '1y', 10).then(data => {
+            let chartArray = data.map((data) => {
+                return data.open
+            })
+            this.setState({ data: chartArray, loadingMiniGraph: false });
+        });
+
+    }
     render() {
-        return (
-            <span
-                className="chart-icon"
-                key={this.props.stock.id}
-                onClick={this.props.onClick}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
-            </span>
-        );
+        return <span className="chart-icon" key={this.props.stock.id} onClick={this.props.onClick}>
+            {this.state.loadingMiniGraph ?
+                <CircularProgress className="loader" size={10} color="secondary" />
+            :
+            <Sparklines data={this.state.data}>
+                <SparklinesLine color="#B40094" />
+            </Sparklines>
+            }
+          </span>;
     }
 }
 

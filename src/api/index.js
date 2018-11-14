@@ -29,7 +29,17 @@ const fetchStocks = (symbols, types, range) => {
 
 }
 
-export {
-    fetchStockGraphData,
-    fetchStocks
+const fetchSimpleGraphData = (symbol, duration, interval) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_API_ARL}${symbol}/chart/${duration}?chartInterval=${interval}`).then((res) => {
+            setTimeout(() => {
+                resolve(res.data)
+            }, 500) //Artificial Api Delay
+        }).catch(function (response) {
+            reject(response);
+        });
+    })
 }
+
+
+export { fetchStockGraphData, fetchStocks, fetchSimpleGraphData };
