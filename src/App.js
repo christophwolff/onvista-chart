@@ -37,9 +37,6 @@ class App extends Component {
                     <Typography variant="h2" color="inherit">
                         Stocks
                     </Typography>
-                    <Typography variant="h6" color="inherit">
-                        Inline-Chart Demo (Reactjs)
-                    </Typography>
                 </AppBar>
                 <div className="content">
                     <Paper>
