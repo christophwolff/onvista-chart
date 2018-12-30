@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import StocksTable from "./components/StocksTable";
-import { fetchStocks } from './api';
+import { fetchStocks, fetchCurrentExchangeRate } from './api';
 import chartConfig from './config/chartConfig'
 import stocksConfig from './config/stocks'
 import './App.css';
@@ -22,6 +22,9 @@ class App extends Component {
 
     componentDidMount() {
         let stocksToQuery = stocksConfig.toString();
+        // fetchCurrentExchangeRate('USD', 'EUR').then((rates) => {
+        //     console.log(rates);
+        // })
         fetchStocks(stocksToQuery, 'quote', '1y').then((stocks) => {
             this.setState({
                 loadingStocks: false,

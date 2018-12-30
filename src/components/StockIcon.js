@@ -28,9 +28,9 @@ class StockIcon extends Component {
             {this.state.loadingMiniGraph ?
                 <CircularProgress className="loader" size={10} color="secondary" />
             :
-            <Sparklines data={this.state.data}>
-                <SparklinesLine color="#B40094" />
-            </Sparklines>
+                <Sparklines data={this.state.data}>
+                    <SparklinesLine color="#B40094" />
+                </Sparklines>
             }
           </span>;
     }

@@ -40,6 +40,17 @@ const fetchSimpleGraphData = (symbol, duration, interval) => {
         });
     })
 }
+const fetchCurrentExchangeRate = (currencyBase, returnCurrency) => {
+    return new Promise((resolve, reject) => {
 
+        axios.get(`https://api.exchangeratesapi.io/latest?base=${currencyBase}`).then((res) => {
+            setTimeout(() => {
+                resolve(res.data.rates[returnCurrency])
+            }, 500) //Artificial Api Delay
+        }).catch(function (response) {
+            reject(response);
+        });
+    })
+}
 
-export { fetchStockGraphData, fetchStocks, fetchSimpleGraphData };
+export { fetchStockGraphData, fetchStocks, fetchSimpleGraphData, fetchCurrentExchangeRate };
