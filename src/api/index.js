@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const BASE_API_ARL = 'https://api.iextrading.com/1.0/stock/';
+const BASE_API_ARL = 'https://cloud.iexapis.com/stable/stock/';
+const TOKEN = process.env.REACT_APP_TOKEN;
 
 const fetchStockGraphData = (symbol) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${BASE_API_ARL}${symbol}/chart/1y`).then((res) => {
+    
+        axios.get(`${BASE_API_ARL}${symbol}/chart/1y?token=${TOKEN}`).then((res) => {
             setTimeout(() => {
                 resolve(res.data)
             }, 500) //Artificial Api Delay
@@ -18,7 +20,7 @@ const fetchStockGraphData = (symbol) => {
 
 const fetchStocks = (symbols, types, range) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${BASE_API_ARL}/market/batch?symbols=${symbols}&types=${types}&range=${range}&last=5`).then((res) => {
+        axios.get(`${BASE_API_ARL}/market/batch?symbols=${symbols}&types=${types}&range=${range}&last=5&token=${TOKEN}`).then((res) => {
              setTimeout(() => {
                 resolve(res.data)
             }, 500) //Artificial Api Delay
@@ -31,7 +33,7 @@ const fetchStocks = (symbols, types, range) => {
 
 const fetchSimpleGraphData = (symbol, duration, interval) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${BASE_API_ARL}${symbol}/chart/${duration}?chartInterval=${interval}`).then((res) => {
+        axios.get(`${BASE_API_ARL}${symbol}/chart/${duration}?chartInterval=${interval}&token=${TOKEN}`).then((res) => {
             setTimeout(() => {
                 resolve(res.data)
             }, 500) //Artificial Api Delay
@@ -43,7 +45,7 @@ const fetchSimpleGraphData = (symbol, duration, interval) => {
 const fetchCurrentExchangeRate = (currencyBase, returnCurrency) => {
     return new Promise((resolve, reject) => {
 
-        axios.get(`https://api.exchangeratesapi.io/latest?base=${currencyBase}`).then((res) => {
+        axios.get(`https://api.exchangeratesapi.io/latest?base=${currencyBase}&token=${TOKEN}`).then((res) => {
             setTimeout(() => {
                 resolve(res.data.rates[returnCurrency])
             }, 500) //Artificial Api Delay
