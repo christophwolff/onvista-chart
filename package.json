@@ -15,11 +15,11 @@
     "react-sparklines": "^1.7.0"
   },
   "scripts": {
-    "start": "REACT_APP_TOKEN=[YOUR_IEX_TOKEN] react-scripts start",
-    "build": "REACT_APP_TOKEN=[YOUR_IEX_TOKEN] react-scripts build",
-    "test": "REACT_APP_TOKEN=[YOUR_IEX_TOKEN] react-scripts test",
-    "eject": "REACT_APP_TOKEN=[YOUR_IEX_TOKEN] react-scripts eject",
-    "now-build": "REACT_APP_TOKEN=[YOUR_IEX_TOKEN] react-scripts build && mv build dist"
+    "start": "REACT_APP_TOKEN=pk_ec30eefb81c8427e9a51ab96c6852769 react-scripts start",
+    "build": "REACT_APP_TOKEN=pk_ec30eefb81c8427e9a51ab96c6852769 react-scripts build",
+    "test": "REACT_APP_TOKEN=pk_ec30eefb81c8427e9a51ab96c6852769 react-scripts test",
+    "eject": "REACT_APP_TOKEN=pk_ec30eefb81c8427e9a51ab96c6852769 react-scripts eject",
+    "now-build": "REACT_APP_TOKEN=pk_ec30eefb81c8427e9a51ab96c6852769 react-scripts build && mv build dist"
   },
   "eslintConfig": {
     "extends": "react-app"
