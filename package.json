@@ -8,7 +8,7 @@
     "axios": "^0.21.1",
     "dayjs": "^1.7.7",
     "highcharts-react-official": "^1.5.2",
-    "node-sass": "^4.10.0",
+    "node-sass": "^7.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1",
